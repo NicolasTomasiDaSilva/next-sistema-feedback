@@ -9,8 +9,6 @@ import {
   Sparkles,
 } from "lucide-react";
 
-import { ThemeToggle } from "@/components/theme-toggle";
-
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -65,10 +63,6 @@ export function NavUser({
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuItem>
-              <ThemeToggle />
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem>
               <LogOut />
               Sair

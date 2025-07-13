@@ -3,6 +3,7 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { ThemeToggle } from "./theme-toggle";
 
 export function PageHeader() {
   const pageTitle = usePageTitle();
@@ -12,6 +13,9 @@ export function PageHeader() {
       <SidebarTrigger className="-ml-1" />
       <Separator orientation="vertical" className="mr-2 h-4" />
       <span>{pageTitle}</span>
+      <div className="ml-auto">
+        <ThemeToggle />
+      </div>
     </header>
   );
 }
