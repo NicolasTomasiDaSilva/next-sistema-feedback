@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/sidebar";
 import { NavPages } from "./nav-pages";
 
-// This is sample data.
 const data = {
   user: {
     name: "shadcn",
