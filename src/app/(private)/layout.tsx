@@ -12,7 +12,9 @@ export default function PrivateLayout({
       <AppSidebar />
       <SidebarInset>
         <PageHeader />
-        {children}
+        <div className="py-6 px-3 flex-1 flex flex-col max-w-5xl w-full mx-auto items-center">
+          {children}
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );
