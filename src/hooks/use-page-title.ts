@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 
 const routeTitles: Record<string, string> = {
+  "/": "Dashboard",
   "/avaliacoes": "Avaliações",
   "/templates": "Templates",
   "/funcionarios": "Funcionários",
