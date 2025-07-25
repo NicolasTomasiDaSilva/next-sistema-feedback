@@ -14,7 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { pages } from "@/lib/routes/routes";
-import { LucideIcon, Users, Star, NotepadTextDashed } from "lucide-react";
+import { LucideIcon} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 

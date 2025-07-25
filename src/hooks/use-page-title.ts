@@ -1,6 +1,3 @@
-"use client";
-
-
 import { pages } from "@/lib/routes/routes";
 import { usePathname } from "next/navigation";
 
