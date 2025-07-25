@@ -1,32 +1,17 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 
-const routeTitles: Record<string, string> = {
-  "/": "Dashboard",
-  "/avaliacoes": "Avaliações",
-  "/templates": "Templates",
-  "/funcionarios": "Funcionários",
-};
+import { pages } from "@/lib/routes/routes";
+import { usePathname } from "next/navigation";
 
 export function usePageTitle() {
   const pathname = usePathname();
 
-  // Busca o título baseado na rota exata
-  const exactTitle = routeTitles[pathname];
+  
+  const exactTitle = pages.find((page) => page.url === pathname)?.title;
   if (exactTitle) {
     return exactTitle;
   }
 
-  // Se não encontrar uma rota exata, tenta encontrar uma rota que comece com o pathname
-  const matchingRoute = Object.keys(routeTitles).find((route) =>
-    pathname.startsWith(route)
-  );
-
-  if (matchingRoute) {
-    return routeTitles[matchingRoute];
-  }
-
-  // Fallback para rotas não mapeadas
-  return "Dashboard";
+  return "";
 }
