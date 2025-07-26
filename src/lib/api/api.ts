@@ -71,7 +71,7 @@ async function get({
   });
 }
 
-async function post<TRequest, TResponse>({
+async function post({
   url,
   headers,
   data,
@@ -79,7 +79,7 @@ async function post<TRequest, TResponse>({
 }: {
   url: string;
   headers?: Record<string, string>;
-  data: TRequest;
+  data: any;
   schema?: z.ZodSchema;
 }): Promise<any> {
   return await request({
