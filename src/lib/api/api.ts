@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import z from "zod";
 
 export const api: {
   get: typeof get;
@@ -16,48 +17,57 @@ const axiosInstance: AxiosInstance = axios.create({
   },
 });
 
-async function request<TRequest, TResponse>({
+async function request({
   url,
   method,
   headers,
   data,
   params,
+  schema,
 }: {
   method: "GET" | "POST" | "PUT" | "DELETE";
   url: string;
   headers?: Record<string, string>;
   params?: Record<string, any>;
-  data?: TRequest;
-}): Promise<TResponse> {
+  data?: any;
+  schema?: z.ZodSchema;
+}): Promise<any> {
   const defaultHeaders = axiosInstance.defaults.headers.common || {};
   const mergedHeaders = {
     ...defaultHeaders,
     ...headers,
   };
 
-  return await axiosInstance.request({
+  const response = await axiosInstance.request({
     url: url,
     method: method,
     data: data,
     headers: mergedHeaders,
     params: params,
   });
+
+  if (schema) {
+    return schema.parse(response.data);
+  }
 }
 
-async function get<TResponse>({
+async function get({
   url,
   headers,
   params,
+  schema,
 }: {
   url: string;
   headers?: Record<string, string>;
   params?: Record<string, any>;
-}): Promise<TResponse> {
-  return await request<undefined, TResponse>({
+  schema?: z.ZodSchema;
+}): Promise<any> {
+  return await request({
     url: url,
     method: "GET",
     headers: headers,
     params: params,
+    schema: schema,
   });
 }
 
@@ -65,15 +75,18 @@ async function post<TRequest, TResponse>({
   url,
   headers,
   data,
+  schema,
 }: {
   url: string;
   headers?: Record<string, string>;
   data: TRequest;
-}): Promise<TResponse> {
-  return await request<TRequest, TResponse>({
+  schema?: z.ZodSchema;
+}): Promise<any> {
+  return await request({
     url: url,
     method: "POST",
     headers: headers,
     data: data,
+    schema: schema,
   });
 }
