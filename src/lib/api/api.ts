@@ -31,7 +31,7 @@ async function request({
   params?: Record<string, any>;
   data?: any;
   schema?: z.ZodSchema;
-}): Promise<any> {
+}) {
   const defaultHeaders = axiosInstance.defaults.headers.common || {};
   const mergedHeaders = {
     ...defaultHeaders,
@@ -49,6 +49,8 @@ async function request({
   if (schema) {
     return schema.parse(response.data);
   }
+
+  return response.data;
 }
 
 async function get({
@@ -61,7 +63,7 @@ async function get({
   headers?: Record<string, string>;
   params?: Record<string, any>;
   schema?: z.ZodSchema;
-}): Promise<any> {
+}) {
   return await request({
     url: url,
     method: "GET",
@@ -81,7 +83,7 @@ async function post({
   headers?: Record<string, string>;
   data: any;
   schema?: z.ZodSchema;
-}): Promise<any> {
+}) {
   return await request({
     url: url,
     method: "POST",
