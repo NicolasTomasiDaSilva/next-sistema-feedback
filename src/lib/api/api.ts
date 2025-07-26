@@ -10,7 +10,7 @@ export const api: {
 };
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "http://localhost:3001/api",
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -38,6 +38,12 @@ async function request({
     ...headers,
   };
 
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjMzMDU2ZmIwLTI1ZTctNDQyNi1hYWQ0LWM3YTFhOWRiNWJjNyIsImNvbXBhbnlJZCI6IjkwMWQ0MmYwLWQ1NTUtNGQzNS1iNzVhLTUwMzkzZmNhYzhkYyIsInJvbGUiOiJtYW5hZ2VyIiwiaWF0IjoxNzUzNTU3Nzk1LCJleHAiOjE3NTQxNjI1OTUsImlzcyI6IjEyM3F3ZSJ9.X6Ef-9Hch_zrZNk0_qCzCiJyhb4V2MbOfPvOtwUXaR8";
+  if (token) {
+    mergedHeaders.Authorization = `Bearer ${token}`;
+  }
+
   const response = await axiosInstance.request({
     url: url,
     method: method,
@@ -47,7 +53,14 @@ async function request({
   });
 
   if (schema) {
-    return schema.parse(response.data);
+    const parsed = schema.safeParse(response.data);
+
+    if (!parsed.success) {
+      console.error("Erro de validação no schema:", parsed.error.format());
+      throw new Error("Resposta inválida da API");
+    }
+
+    return parsed.data;
   }
 
   return response.data;
