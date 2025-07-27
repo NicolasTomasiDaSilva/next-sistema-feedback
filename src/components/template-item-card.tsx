@@ -63,7 +63,7 @@ export function TemplateItemCard({
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-2">
         <FormField
           control={form.control}
           name={`items.${index}.label`}
@@ -82,7 +82,7 @@ export function TemplateItemCard({
           name={`items.${index}.description`}
           render={({ field }) => (
             <FormItem className="flex-1">
-              <FormLabel>Descrição</FormLabel>
+              <FormLabel>Descrição (Opcional)</FormLabel>
               <FormControl>
                 <Textarea
                   placeholder={`Descrição do item ${index + 1}`}
