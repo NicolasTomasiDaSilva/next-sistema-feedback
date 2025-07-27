@@ -17,5 +17,3 @@ export const feedbackSchema = entitySchema.extend({
   score: z.number().min(1).max(100),
   items: z.array(feedbackItemSchema),
 });
-
-export interface Feedback extends z.infer<typeof feedbackSchema> {}

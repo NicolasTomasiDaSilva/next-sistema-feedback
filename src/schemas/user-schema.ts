@@ -10,6 +10,7 @@ export const userSchema = entitySchema.extend({
     .min(3)
     .max(50)
     .regex(/^[a-zA-ZÀ-ÿ\s]+$/),
+  phone: z.string().trim().min(10).max(11).nullable().optional(),
   cpf: z.string().trim().min(11).max(11),
   role: z.enum([
     RoleEnum.manager,
@@ -17,5 +18,3 @@ export const userSchema = entitySchema.extend({
     RoleEnum.employee,
   ] as const),
 });
-
-export interface User extends z.infer<typeof userSchema> {}

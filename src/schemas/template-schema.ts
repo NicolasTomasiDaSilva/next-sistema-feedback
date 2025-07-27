@@ -13,7 +13,15 @@ export const templateSchema = entitySchema.extend({
   title: z.string().trim().min(3).max(50),
   description: z.string().trim().min(3).max(50).nullable(),
   creator: userSchema,
-  items: z.array(templateItemSchema),
+  items: z.array(templateItemSchema).optional(),
 });
 
-export interface Template extends z.infer<typeof templateSchema> {}
+export type Template = z.infer<typeof templateSchema>;
+
+export const templateFormSchema = templateSchema.pick({
+  title: true,
+  description: true,
+  items: true,
+});
+
+export type TemplateForm = z.infer<typeof templateFormSchema>;

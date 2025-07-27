@@ -1,5 +1,4 @@
-import { Eye } from "lucide-react";
-import { Button } from "./ui/button";
+import { TemplateDialogForm } from "./template-dialog";
 import {
   Card,
   CardAction,
@@ -9,7 +8,6 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Template } from "@/schemas/template-schema";
-import { TemplateDialog } from "./template-dialog";
 
 interface CardTemplateProps {
   template: Template;
@@ -24,7 +22,11 @@ export function CardTemplate({ template }: CardTemplateProps) {
           12 items • Criado por {template.creator.name}
         </CardDescription>
         <CardAction>
-          <TemplateDialog />
+          <TemplateDialogForm
+            onSubmit={(value) => {
+              return;
+            }}
+          />
         </CardAction>
       </CardHeader>
       <CardContent>
