@@ -9,6 +9,8 @@ export const templateItemSchema = z.object({
   order: z.number(),
 });
 
+export type TemplateItem = z.infer<typeof templateItemSchema>;
+
 export const templateSchema = entitySchema.extend({
   title: z.string().trim().min(3).max(50),
   description: z.string().trim().min(3).max(50).nullable(),

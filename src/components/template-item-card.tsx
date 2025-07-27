@@ -7,27 +7,12 @@ import {
   UseFieldArrayRemove,
   UseFormReturn,
 } from "react-hook-form";
-import { TemplateForm } from "@/schemas/template-schema";
+import { TemplateForm, TemplateItem } from "@/schemas/template-schema";
 
 interface TemplateItemCardProps {
   index: number;
   remove: UseFieldArrayRemove;
-  field: FieldArrayWithId<
-    {
-      title: string;
-      description: string | null;
-      items?:
-        | {
-            label: string;
-            description: string | null;
-            weight: number;
-            order: number;
-          }[]
-        | undefined;
-    },
-    "items",
-    "id"
-  >;
+  field: FieldArrayWithId<TemplateItem>;
   form: UseFormReturn<TemplateForm>;
 }
 export function TemplateItemCard({
