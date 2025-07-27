@@ -25,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { TemplateForm, templateFormSchema } from "@/schemas/template-schema";
 import { PlusCircle, Trash2 } from "lucide-react"; // Ícones para adicionar/remover
+import { TemplateItemCard } from "./template-item-card";
 
 interface TemplateDialogFormProps {
   defaultValues?: TemplateForm;
@@ -122,32 +123,13 @@ export function TemplateDialogForm({
               <FormLabel>Itens da Checklist</FormLabel>
               <div className="mt-2 space-y-3">
                 {fields.map((field, index) => (
-                  <div key={field.id} className="flex items-center gap-2">
-                    <FormField
-                      control={form.control}
-                      name={`items.${index}.label`}
-                      render={({ field }) => (
-                        <FormItem className="flex-1">
-                          <FormControl>
-                            <Input
-                              placeholder={`Item ${index + 1}`}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      type="button" // Importante para não submeter o form
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => remove(index)}
-                      disabled={fields.length <= 1} // Não permite remover o último item
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
+                  <TemplateItemCard
+                    key={field.id}
+                    index={index}
+                    remove={remove}
+                    field={field}
+                    form={form}
+                  />
                 ))}
               </div>
             </div>
