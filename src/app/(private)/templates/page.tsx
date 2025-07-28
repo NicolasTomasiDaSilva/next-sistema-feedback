@@ -1,6 +1,7 @@
 "use client";
 
 import { CardTemplate } from "@/components/template-card";
+import { TemplateDialogForm } from "@/components/template-dialog";
 import { Button } from "@/components/ui/button";
 import { Template } from "@/schemas/template-schema";
 import { TemplateService } from "@/services/template-service";
@@ -19,10 +20,7 @@ export default function Templates() {
   }, []);
   return (
     <>
-      <Button className="ml-auto">
-        <Plus className="size-3" />
-        Adicionar Template
-      </Button>
+      <TemplateDialogForm onSubmit={async () => {}} />
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {templates.map((template) => (
           <CardTemplate key={template.id} template={template}></CardTemplate>

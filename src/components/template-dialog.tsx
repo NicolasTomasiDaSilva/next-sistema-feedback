@@ -24,7 +24,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { TemplateForm, templateFormSchema } from "@/schemas/template-schema";
-import { PlusCircle } from "lucide-react"; // Ícones para adicionar/remover
+import { Pencil, PlusCircle } from "lucide-react"; // Ícones para adicionar/remover
 import { TemplateItemCard } from "./template-item-card";
 import { ScrollArea } from "./ui/scroll-area";
 
@@ -43,46 +43,50 @@ export function TemplateDialogForm({
     resolver: zodResolver(templateFormSchema),
     defaultValues: defaultValues ?? {
       title: "",
-      description: "", // Recomendo usar string vazia para o campo controlado
-      items: [], // Começar com um item vazio
+      description: "",
+      items: [],
     },
   });
 
-  // Hook para gerenciar os campos dinâmicos
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "items",
   });
 
   const handleFormSubmit = (values: TemplateForm) => {
-    onSubmit(values); // Chama a função passada por props
-    form.reset(); // Limpa o formulário
-    setOpen(false); // Fecha o dialog
+    onSubmit(values);
+    form.reset();
+    setOpen(false);
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>{defaultValues ? "Editar Template" : "Novo Template"}</Button>
+        <Button>
+          {defaultValues ? (
+            <Pencil className="size-3" />
+          ) : (
+            <PlusCircle className="size-3" />
+          )}
+          {defaultValues ? "Editar" : "Adicionar"}
+        </Button>
       </DialogTrigger>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>
-            {defaultValues ? "Editar Template" : "Criar Template"}
+            {defaultValues ? "Editar Template" : "Adicionar Template"}
           </DialogTitle>
           <DialogDescription>
             Crie um modelo para reutilizar em suas avaliações.
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96">
-          {/* O componente Form do shadcn provê o contexto */}
           <Form {...form}>
             <form
-              id="template-form" // ID para o botão de submit do footer funcionar
+              id="template-form"
               onSubmit={form.handleSubmit(handleFormSubmit)}
               className="space-y-6"
             >
-              {/* Campo Título */}
               <FormField
                 control={form.control}
                 name="title"
@@ -102,8 +106,6 @@ export function TemplateDialogForm({
                   </FormItem>
                 )}
               />
-
-              {/* Campo Descrição */}
               <FormField
                 control={form.control}
                 name="description"
@@ -123,8 +125,6 @@ export function TemplateDialogForm({
                   </FormItem>
                 )}
               />
-
-              {/* --- Campos Dinâmicos (Checklist) --- */}
               <div>
                 <FormLabel>Itens</FormLabel>
                 <div className="mt-2 space-y-3">
@@ -139,7 +139,6 @@ export function TemplateDialogForm({
                   ))}
                 </div>
               </div>
-
               <Button
                 type="button"
                 variant="outline"
@@ -157,10 +156,7 @@ export function TemplateDialogForm({
         </ScrollArea>
 
         <DialogFooter>
-          <Button
-            type="submit"
-            form="template-form" // Associa o botão ao formulário
-          >
+          <Button type="submit" form="template-form">
             Salvar
           </Button>
         </DialogFooter>
