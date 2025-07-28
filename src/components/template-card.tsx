@@ -23,7 +23,9 @@ export function CardTemplate({ template }: CardTemplateProps) {
         </CardDescription>
         <CardAction>
           <TemplateDialogForm
+            defaultValues={template}
             onSubmit={(value) => {
+              console.log(value);
               return;
             }}
           />
