@@ -71,7 +71,7 @@ export function TemplateItemCard({
             <FormItem className="flex-1">
               <FormLabel>Título</FormLabel>
               <FormControl>
-                <Input placeholder={`Item ${index + 1}`} {...field} />
+                <Input {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,7 +85,6 @@ export function TemplateItemCard({
               <FormLabel>Descrição (Opcional)</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder={`Descrição do item ${index + 1}`}
                   value={field.value ?? ""}
                   onChange={field.onChange}
                   onBlur={field.onBlur}
@@ -108,7 +107,7 @@ export function TemplateItemCard({
                 value={field.value?.toString()}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecionar peso" />
+                  <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   {[1, 2, 3, 4, 5].map((weight) => (

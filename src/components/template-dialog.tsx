@@ -24,8 +24,9 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { TemplateForm, templateFormSchema } from "@/schemas/template-schema";
-import { PlusCircle, Trash2 } from "lucide-react"; // Ícones para adicionar/remover
+import { PlusCircle } from "lucide-react"; // Ícones para adicionar/remover
 import { TemplateItemCard } from "./template-item-card";
+import { ScrollArea } from "./ui/scroll-area";
 
 interface TemplateDialogFormProps {
   defaultValues?: TemplateForm;
@@ -70,84 +71,78 @@ export function TemplateDialogForm({
             {defaultValues ? "Editar Template" : "Criar Template"}
           </DialogTitle>
           <DialogDescription>
-            Crie um modelo de checklist para reutilizar em suas tarefas.
+            Crie um modelo para reutilizar em suas avaliações.
           </DialogDescription>
         </DialogHeader>
-
-        {/* O componente Form do shadcn provê o contexto */}
-        <Form {...form}>
-          <form
-            id="template-form" // ID para o botão de submit do footer funcionar
-            onSubmit={form.handleSubmit(handleFormSubmit)}
-            className="space-y-6"
-          >
-            {/* Campo Título */}
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Título</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ex: Checklist de Onboarding"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Campo Descrição */}
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descrição (Opcional)</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Descreva o objetivo deste template..."
-                      {...field}
-                      value={field.value ?? ""} // Garante que o valor não seja null
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* --- Campos Dinâmicos (Checklist) --- */}
-            <div>
-              <FormLabel>Itens da Checklist</FormLabel>
-              <div className="mt-2 space-y-3">
-                {fields.map((field, index) => (
-                  <TemplateItemCard
-                    key={field.id}
-                    index={index}
-                    remove={remove}
-                    field={field}
-                    form={form}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <Button
-              type="button" // Importante para não submeter o form
-              variant="outline"
-              size="sm"
-              className="mt-2"
-              onClick={() =>
-                append({ label: "", description: "", weight: 1, order: 1 })
-              } // Adiciona um novo item vazio
+        <ScrollArea className="h-96">
+          {/* O componente Form do shadcn provê o contexto */}
+          <Form {...form}>
+            <form
+              id="template-form" // ID para o botão de submit do footer funcionar
+              onSubmit={form.handleSubmit(handleFormSubmit)}
+              className="space-y-6"
             >
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Adicionar Item
-            </Button>
-          </form>
-        </Form>
+              {/* Campo Título */}
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Título</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* Campo Descrição */}
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descrição (Opcional)</FormLabel>
+                    <FormControl>
+                      <Textarea {...field} value={field.value ?? ""} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* --- Campos Dinâmicos (Checklist) --- */}
+              <div>
+                <FormLabel>Itens</FormLabel>
+                <div className="mt-2 space-y-3">
+                  {fields.map((field, index) => (
+                    <TemplateItemCard
+                      key={field.id}
+                      index={index}
+                      remove={remove}
+                      field={field}
+                      form={form}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="mt-2"
+                onClick={() =>
+                  append({ label: "", description: "", weight: 1, order: 1 })
+                }
+              >
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Adicionar Item
+              </Button>
+            </form>
+          </Form>
+        </ScrollArea>
 
         <DialogFooter>
           <Button
