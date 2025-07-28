@@ -90,7 +90,13 @@ export function TemplateDialogForm({
                   <FormItem>
                     <FormLabel>Título</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -105,7 +111,13 @@ export function TemplateDialogForm({
                   <FormItem>
                     <FormLabel>Descrição (Opcional)</FormLabel>
                     <FormControl>
-                      <Textarea {...field} value={field.value ?? ""} />
+                      <Textarea
+                        value={field.value ?? ""}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        name={field.name}
+                        ref={field.ref}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

@@ -4,8 +4,8 @@ import { userSchema } from "./user-schema";
 import { zString } from "./values";
 
 export const templateItemSchema = z.object({
-  label: z.string().trim().min(3).max(50),
-  description: z.string().trim().min(3).max(50).nullable(),
+  label: zString({ field: "Título", min: 3, max: 50 }),
+  description: zString({ field: "Descrição", min: 3, max: 50, nullable: true }),
   weight: z.number().min(1).max(5),
   order: z.number(),
 });
@@ -13,7 +13,7 @@ export const templateItemSchema = z.object({
 export type TemplateItem = z.infer<typeof templateItemSchema>;
 
 export const templateSchema = entitySchema.extend({
-  title: z.string().trim().min(3).max(50),
+  title: zString({ field: "Título", min: 3, max: 50 }),
   description: zString({ field: "Descrição", min: 3, max: 50, nullable: true }),
   creator: userSchema,
   items: z.array(templateItemSchema).optional(),

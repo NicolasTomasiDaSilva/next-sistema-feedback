@@ -71,7 +71,13 @@ export function TemplateItemCard({
             <FormItem className="flex-1">
               <FormLabel>Título</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input
+                  value={field.value ?? ""}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
