@@ -32,12 +32,7 @@ export function CardTemplate({ template }: CardTemplateProps) {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <CardDescription>
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Alias,
-          exercitationem! Obcaecati impedit vel facere itaque sed, quis iure et
-          dolorum, minima debitis sapiente dicta soluta odio aliquid! Labore,
-          quasi ut?
-        </CardDescription>
+        <CardDescription>{template.description}</CardDescription>
       </CardContent>
     </Card>
   );

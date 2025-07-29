@@ -16,7 +16,7 @@ export const templateSchema = entitySchema.extend({
   title: zString({ field: "Título", min: 3, max: 50 }),
   description: zString({ field: "Descrição", min: 3, max: 50, nullable: true }),
   creator: userSchema,
-  items: z.array(templateItemSchema).optional(),
+  items: z.array(templateItemSchema).min(1).optional(),
 });
 
 export type Template = z.infer<typeof templateSchema>;

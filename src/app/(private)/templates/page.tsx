@@ -5,7 +5,6 @@ import { TemplateDialogForm } from "@/components/template-dialog";
 import { Button } from "@/components/ui/button";
 import { Template } from "@/schemas/template-schema";
 import { TemplateService } from "@/services/template-service";
-import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 
 export default function Templates() {
@@ -20,8 +19,8 @@ export default function Templates() {
   }, []);
   return (
     <>
-      <TemplateDialogForm onSubmit={async () => {}} />
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <TemplateDialogForm onSubmit={async () => {}} className="ml-auto" />
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 sm:grid-cols-3 gap-4">
         {templates.map((template) => (
           <CardTemplate key={template.id} template={template}></CardTemplate>
         ))}

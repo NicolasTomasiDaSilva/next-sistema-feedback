@@ -16,7 +16,7 @@ export default function PrivateLayout({
       <AppSidebar />
       <SidebarInset>
         <PageHeader />
-        <div className="py-6 px-3 flex-1 flex flex-col max-w-5xl w-full mx-auto items-center">
+        <div className="py-6 px-3 flex-1 flex flex-col max-w-5xl w-full mx-auto items-center gap-4">
           <h2 className="mr-auto text-muted-foreground">{page.description}</h2>
           {children}
         </div>

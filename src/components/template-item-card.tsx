@@ -24,7 +24,6 @@ import {
   CardTitle,
 } from "./ui/card";
 import { Textarea } from "./ui/textarea";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import {
   Select,
   SelectContent,
@@ -32,8 +31,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
-
-const levels = [1, 2, 3, 4, 5];
 
 interface TemplateItemCardProps {
   index: number;
@@ -91,6 +88,7 @@ export function TemplateItemCard({
               <FormLabel>Descrição (Opcional)</FormLabel>
               <FormControl>
                 <Textarea
+                  className="resize-none"
                   value={field.value ?? ""}
                   onChange={field.onChange}
                   onBlur={field.onBlur}

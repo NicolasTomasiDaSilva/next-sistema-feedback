@@ -24,18 +24,21 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { TemplateForm, templateFormSchema } from "@/schemas/template-schema";
-import { Pencil, PlusCircle } from "lucide-react"; // Ícones para adicionar/remover
+import { Pencil, PlusCircle, Save, SaveAll } from "lucide-react"; // Ícones para adicionar/remover
 import { TemplateItemCard } from "./template-item-card";
 import { ScrollArea } from "./ui/scroll-area";
 
 interface TemplateDialogFormProps {
   defaultValues?: TemplateForm;
   onSubmit: (values: TemplateForm) => void;
+
+  className?: string;
 }
 
 export function TemplateDialogForm({
   defaultValues,
   onSubmit,
+  className,
 }: TemplateDialogFormProps) {
   const [open, setOpen] = useState(false);
 
@@ -59,25 +62,37 @@ export function TemplateDialogForm({
     setOpen(false);
   };
 
+  const isEditing: Boolean = defaultValues ? true : false;
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open);
+        if (!open) {
+          form.reset();
+        }
+      }}
+    >
       <DialogTrigger asChild>
-        <Button>
-          {defaultValues ? (
+        <Button className={className} variant={isEditing ? "ghost" : "default"}>
+          {isEditing ? (
             <Pencil className="size-3" />
           ) : (
             <PlusCircle className="size-3" />
           )}
-          {defaultValues ? "Editar" : "Adicionar"}
+          {isEditing ? null : "Adicionar"}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-3xl">
         <DialogHeader>
           <DialogTitle>
-            {defaultValues ? "Editar Template" : "Adicionar Template"}
+            {isEditing ? "Editar Modelo" : "Adicionar Modelo"}
           </DialogTitle>
           <DialogDescription>
-            Crie um modelo para reutilizar em suas avaliações.
+            {isEditing
+              ? "Edite seu modelo de avaliação"
+              : "Adicione um modelo de avaliação"}
           </DialogDescription>
         </DialogHeader>
         <ScrollArea className="h-96">
@@ -114,6 +129,7 @@ export function TemplateDialogForm({
                     <FormLabel>Descrição (Opcional)</FormLabel>
                     <FormControl>
                       <Textarea
+                        className="resize-none"
                         value={field.value ?? ""}
                         onChange={field.onChange}
                         onBlur={field.onBlur}
@@ -151,13 +167,27 @@ export function TemplateDialogForm({
                 <PlusCircle className="mr-2 h-4 w-4" />
                 Adicionar Item
               </Button>
+              {form.formState.errors.items?.message && (
+                <p className="text-sm font-medium text-destructive mt-1">
+                  {form.formState.errors.items.message}
+                </p>
+              )}
+              {form.formState.errors.items?.root?.message && (
+                <p className="text-sm font-medium text-destructive mt-1">
+                  {form.formState.errors.items.root.message}
+                </p>
+              )}
             </form>
           </Form>
         </ScrollArea>
-
         <DialogFooter>
           <Button type="submit" form="template-form">
-            Salvar
+            {isEditing ? (
+              <Save className="size-3" />
+            ) : (
+              <PlusCircle className="size-3" />
+            )}
+            {isEditing ? "Salvar alterações" : "Adicionar"}
           </Button>
         </DialogFooter>
       </DialogContent>
