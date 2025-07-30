@@ -22,29 +22,32 @@ import { Textarea } from "@/components/ui/textarea"; // Para o campo de descriç
 import { Button } from "@/components/ui/button";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { TemplateForm, templateFormSchema } from "@/schemas/template-schema";
+import { useEffect, useState } from "react";
+import {
+  Template,
+  TemplateForm,
+  templateFormSchema,
+} from "@/schemas/template-schema";
 import { Pencil, PlusCircle, Save, SaveAll } from "lucide-react"; // Ícones para adicionar/remover
 import { TemplateItemCard } from "./template-item-card";
-import { ScrollArea } from "./ui/scroll-area";
+import { TemplateService } from "@/services/template-service";
+import { ScrollArea } from "../ui/scroll-area";
+import { useTemplate } from "@/hooks/use-template";
 
 interface TemplateDialogFormProps {
-  defaultValues?: TemplateForm;
-  onSubmit: (values: TemplateForm) => void;
-
+  id?: string;
   className?: string;
 }
 
-export function TemplateDialogForm({
-  defaultValues,
-  onSubmit,
-  className,
-}: TemplateDialogFormProps) {
+export function TemplateDialogForm({ id, className }: TemplateDialogFormProps) {
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const { templates, setTemplates, createTemplate, updateTemplate } =
+    useTemplate();
 
   const form = useForm<TemplateForm>({
     resolver: zodResolver(templateFormSchema),
-    defaultValues: defaultValues ?? {
+    defaultValues: {
       title: "",
       description: "",
       items: [],
@@ -57,12 +60,34 @@ export function TemplateDialogForm({
   });
 
   const handleFormSubmit = (values: TemplateForm) => {
-    onSubmit(values);
+    if (id) {
+      updateTemplate(values, id);
+    } else {
+      createTemplate(values);
+    }
     form.reset();
     setOpen(false);
   };
 
-  const isEditing: Boolean = defaultValues ? true : false;
+  useEffect(() => {
+    if (!open || !id) {
+      return;
+    }
+
+    setLoading(true);
+
+    TemplateService.getTemplate(id)
+      .then((template) => {
+        form.reset({
+          title: template.title,
+          description: template.description,
+          items: template.items,
+        });
+      })
+      .finally(() => setLoading(false));
+  }, [open, id, form]);
+
+  const isEditing = !!id;
 
   return (
     <Dialog

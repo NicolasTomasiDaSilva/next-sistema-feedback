@@ -25,6 +25,6 @@ export const templateFormSchema = templateSchema.pick({
   title: true,
   description: true,
   items: true,
-});
+}).required({ items: true });
 
 export type TemplateForm = z.infer<typeof templateFormSchema>;

@@ -6,7 +6,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import { Template } from "@/schemas/template-schema";
 
 interface CardTemplateProps {
@@ -22,13 +22,7 @@ export function CardTemplate({ template }: CardTemplateProps) {
           12 items • Criado por {template.creator.name}
         </CardDescription>
         <CardAction>
-          <TemplateDialogForm
-            defaultValues={template}
-            onSubmit={(value) => {
-              console.log(value);
-              return;
-            }}
-          />
+          <TemplateDialogForm id={template.id} />
         </CardAction>
       </CardHeader>
       <CardContent>

@@ -4,9 +4,11 @@ import z from "zod";
 export const api: {
   get: typeof get;
   post: typeof post;
+  put: typeof put;
 } = {
   get: get,
   post: post,
+  put: put,
 };
 
 const axiosInstance: AxiosInstance = axios.create({
@@ -100,6 +102,26 @@ async function post({
   return await request({
     url: url,
     method: "POST",
+    headers: headers,
+    data: data,
+    schema: schema,
+  });
+}
+
+async function put({
+  url,
+  headers,
+  data,
+  schema,
+}: {
+  url: string;
+  headers?: Record<string, string>;
+  data: any;
+  schema?: z.ZodSchema;
+}) {
+  return await request({
+    url: url,
+    method: "PUT",
     headers: headers,
     data: data,
     schema: schema,
