@@ -40,9 +40,8 @@ interface TemplateDialogFormProps {
 }
 
 export function TemplateDialogForm({ id, className }: TemplateDialogFormProps) {
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const { templates, setTemplates, createTemplate, updateTemplate } =
+  const { isLoading, setIsLoading, createTemplate, updateTemplate } =
     useTemplate();
 
   const form = useForm<TemplateForm>({
@@ -59,11 +58,11 @@ export function TemplateDialogForm({ id, className }: TemplateDialogFormProps) {
     name: "items",
   });
 
-  const handleFormSubmit = (values: TemplateForm) => {
+  const handleFormSubmit = async (values: TemplateForm) => {
     if (id) {
-      updateTemplate(values, id);
+      await updateTemplate(values, id);
     } else {
-      createTemplate(values);
+      await createTemplate(values);
     }
     form.reset();
     setOpen(false);
@@ -74,7 +73,7 @@ export function TemplateDialogForm({ id, className }: TemplateDialogFormProps) {
       return;
     }
 
-    setLoading(true);
+    setIsLoading(true);
 
     TemplateService.getTemplate(id)
       .then((template) => {
@@ -84,7 +83,7 @@ export function TemplateDialogForm({ id, className }: TemplateDialogFormProps) {
           items: template.items,
         });
       })
-      .finally(() => setLoading(false));
+      .finally(() => setIsLoading(false));
   }, [open, id, form]);
 
   const isEditing = !!id;
@@ -206,7 +205,7 @@ export function TemplateDialogForm({ id, className }: TemplateDialogFormProps) {
           </Form>
         </ScrollArea>
         <DialogFooter>
-          <Button type="submit" form="template-form">
+          <Button type="submit" form="template-form" disabled={isLoading}>
             {isEditing ? (
               <Save className="size-3" />
             ) : (

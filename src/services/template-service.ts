@@ -14,12 +14,21 @@ export class TemplateService {
     })) as Template;
   }
 
-  static async getTemplates(): Promise<Template[]> {
+  static async getTemplates({
+    page,
+    perPage,
+    templateName,
+  }: {
+    page: number;
+    perPage: number;
+    templateName?: string;
+  }): Promise<Template[]> {
     return (await api.get({
       url: "/templates",
       params: {
-        page: 1,
-        perPage: 5,
+        page,
+        perPage,
+        templateName,
       },
       schema: z.array(templateSchema),
     })) as Template[];

@@ -1,23 +1,23 @@
 "use client";
-
 import { CardTemplate } from "@/components/template/template-card";
 import { TemplateDialogForm } from "@/components/template/template-dialog";
-import { TemplateProvider } from "@/contexts/template-context";
+import { usePaginationWithFetch } from "@/hooks/use-pagination-with-fetch";
 import { useTemplate } from "@/hooks/use-template";
 import { TemplateService } from "@/services/template-service";
-import { useEffect } from "react";
+import { Pagination } from "../pagination";
+import { Template } from "@/schemas/template-schema";
 
 export default function TemplateContent() {
-  const { templates, setTemplates, createTemplate } = useTemplate();
-
-  useEffect(() => {
-    async function fetchTemplates() {
-      const templates = await TemplateService.getTemplates();
-      setTemplates(templates);
-    }
-
-    fetchTemplates();
-  }, []);
+  const { templates, setTemplates } = useTemplate();
+  const { page, isLoading, hasNextPage, next, prev, params, setParams } =
+    usePaginationWithFetch<Template, { templateName?: string }>(
+      {
+        fetcher: TemplateService.getTemplates,
+        initialParams: {},
+        perPageDefault: 6,
+      },
+      setTemplates
+    );
 
   return (
     <>
@@ -27,6 +27,14 @@ export default function TemplateContent() {
           <CardTemplate key={template.id} template={template}></CardTemplate>
         ))}
       </div>
+      {!isLoading && (
+        <Pagination
+          page={page}
+          prev={prev}
+          next={next}
+          hasNextPage={hasNextPage}
+        />
+      )}
     </>
   );
 }
